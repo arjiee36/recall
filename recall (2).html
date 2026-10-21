@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recall</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--hf:"Bricolage Grotesque",system-ui,sans-serif;--bf:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--bg:#eef0f9;--pn:rgba(255,255,255,.6);--pb:rgba(255,255,255,.85);--dg:rgba(255,255,255,.92);--ink:#10132a;--mut:#666c86;--ln:rgba(20,26,70,.1);--ac:#3b5bff;--ac2:#10b8b0;--ab:rgba(59,91,255,.1);--gr:linear-gradient(135deg,#3b5bff,#14b8c8);--onp:#fff;--glow:rgba(59,91,255,.55);--g1:rgba(80,110,255,.3);--g2:rgba(20,200,184,.2);--g3:rgba(255,150,120,.22);--ok:#1c8f5a;--no:#d0443a;--sh:rgba(20,30,90,.28);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070914;--pn:rgba(255,255,255,.06);--pb:rgba(255,255,255,.11);--dg:rgba(18,21,38,.94);--ink:#eef0fb;--mut:#8c92ad;--ln:rgba(255,255,255,.09);--ac:#7d93ff;--ac2:#3fe0d0;--ab:rgba(125,147,255,.16);--gr:linear-gradient(135deg,#7d93ff,#3fe0d0);--onp:#071022;--glow:rgba(100,130,255,.45);--g1:rgba(70,100,255,.38);--g2:rgba(20,200,184,.2);--g3:rgba(255,110,150,.16);--ok:#5fd49b;--no:#ff857b;--sh:rgba(0,0,0,.6);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070914;--pn:rgba(255,255,255,.06);--pb:rgba(255,255,255,.11);--dg:rgba(18,21,38,.94);--ink:#eef0fb;--mut:#8c92ad;--ln:rgba(255,255,255,.09);--ac:#7d93ff;--ac2:#3fe0d0;--ab:rgba(125,147,255,.16);--gr:linear-gradient(135deg,#7d93ff,#3fe0d0);--onp:#071022;--glow:rgba(100,130,255,.45);--g1:rgba(70,100,255,.38);--g2:rgba(20,200,184,.2);--g3:rgba(255,110,150,.16);--ok:#5fd49b;--no:#ff857b;--sh:rgba(0,0,0,.6);color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--bf);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(540px 400px at 10% 6%,var(--g1),transparent 70%),radial-gradient(560px 420px at 90% 16%,var(--g2),transparent 70%),radial-gradient(620px 460px at 55% 104%,var(--g3),transparent 70%)}
+button,input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.gl,.side,.card{background:var(--pn);border:1px solid var(--pb);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);box-shadow:0 24px 50px -32px var(--sh)}
+.app{display:grid;grid-template-columns:272px 1fr;min-height:100vh}
+.side{position:sticky;top:16px;align-self:start;margin:16px 0 16px 16px;height:calc(100vh - 32px);overflow:auto;border-radius:28px;padding:20px 12px}
+.brand{display:flex;align-items:center;font:700 22px var(--hf);letter-spacing:-.03em;padding:2px 10px 16px}
+.brand i{width:12px;height:12px;border-radius:50%;background:var(--gr);margin-right:10px;box-shadow:0 0 14px var(--glow)}
+.grp{font-size:12px;font-weight:600;color:var(--mut);padding:14px 10px 6px}
+.dk{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:1px solid transparent;background:none;padding:7px 8px;border-radius:14px;cursor:pointer;transition:background .15s,transform .15s}
+.dk:hover{background:var(--ab)}.dk:active{transform:scale(.98)}
+.dk.on{background:var(--ab);border-color:var(--ln);font-weight:600}
+.ei{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--pn);border:1px solid var(--ln);font-size:15px;flex:none}
+.dn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dk small{background:var(--gr);color:var(--onp);border-radius:999px;padding:0 8px;font-size:11px;font-weight:700;line-height:20px}
+.nd{color:var(--mut)}
+.foot{display:flex;gap:8px;flex-wrap:wrap;padding:16px 8px 0}
+.main{max-width:860px;width:100%;margin:0 auto;padding:44px 28px 100px}
+h1{font:700 40px/1.08 var(--hf);letter-spacing:-.035em;margin:0}
+h3{margin:0 0 8px;font:700 22px var(--hf);letter-spacing:-.02em}
+.mut{color:var(--mut)}
+.hd{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.em{width:60px;height:60px;border-radius:20px;display:grid;place-items:center;font-size:30px;background:var(--pn);border:1px solid var(--pb);box-shadow:0 10px 30px -14px var(--sh)}
+.b{border:1px solid var(--ln);background:var(--pn);border-radius:14px;padding:9px 16px;font-weight:600;cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .2s,filter .15s}
+.b:hover{border-color:var(--ac)}.b:active{transform:scale(.97)}.b:disabled{opacity:.4;cursor:default;transform:none}
+.b.p{background:var(--gr);color:var(--onp);border-color:transparent;box-shadow:0 10px 24px -10px var(--glow)}
+.b.p:hover:not(:disabled){filter:brightness(1.08);box-shadow:0 14px 30px -10px var(--glow)}
+.gh{background:none;border-color:transparent;color:var(--mut);padding-left:0;align-self:flex-start}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.main>.acts{margin:18px 0 10px}.center .acts{margin-top:18px;justify-content:center}
+.bento{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.t{border-radius:28px;padding:22px;min-height:178px;display:flex;flex-direction:column;justify-content:space-between;gap:14px;transition:transform .2s}
+.t:hover{transform:translateY(-2px)}
+.hero{grid-column:span 2;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 20%,transparent),color-mix(in srgb,var(--ac2) 12%,transparent)),var(--pn)}
+.wide{grid-column:span 2}
+.k{font-size:12px;font-weight:700;color:var(--mut);letter-spacing:.03em}
+.big{font:700 58px/1 var(--hf);letter-spacing:-.045em}.big small{font:500 16px var(--bf);color:var(--mut);letter-spacing:0}
+.rw{position:relative;width:104px;height:104px}
+.ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--ac) calc(var(--p)*1%),var(--ln) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 10px),#000 calc(100% - 9px));mask:radial-gradient(farthest-side,transparent calc(100% - 10px),#000 calc(100% - 9px))}
+.rw b{position:absolute;inset:0;display:grid;place-items:center;font:700 24px var(--hf);letter-spacing:-.03em}
+.fc{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:92px}
+.fc div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;font-size:11px;font-weight:600;color:var(--mut);gap:6px}
+.fc i{display:block;width:100%;background:linear-gradient(var(--ac2),var(--ac));border-radius:8px 8px 4px 4px;min-height:4px}
+.sec{font:700 17px var(--hf);letter-spacing:-.02em;margin:34px 0 12px}
+.in{width:100%;padding:12px 14px;border:1px solid var(--ln);border-radius:14px;background:var(--pn);margin-top:4px;transition:border-color .15s}
+.in:focus{outline:0;border-color:var(--ac);box-shadow:0 0 0 4px var(--ab)}
+textarea.in{min-height:70px;resize:vertical}
+.panel{border-radius:24px;padding:4px 18px;margin-top:12px}
+.r2{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--ln)}.r2:last-child{border-bottom:0}
+.tag{font-size:11px;font-weight:700;color:var(--ac);background:var(--ab);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.qt{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ic{border:0;background:none;color:var(--mut);cursor:pointer;padding:4px 6px;border-radius:8px;font-weight:500}.ic:hover{color:var(--ink);background:var(--ab)}
+.study{max-width:660px;margin:0 auto;padding:24px 4px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;color:var(--mut);font-weight:600;margin-bottom:16px}
+.bar{height:6px;background:var(--ln);border-radius:999px;margin-bottom:26px;overflow:hidden}.bar i{display:block;height:100%;background:var(--gr);border-radius:999px;transition:width .35s cubic-bezier(.3,.9,.3,1)}
+.card{border-radius:32px;padding:48px;min-height:290px;font:600 27px/1.35 var(--hf);letter-spacing:-.02em;animation:rv .35s cubic-bezier(.2,.9,.3,1)}
+.card hr{border:0;border-top:1px solid var(--ln);margin:24px 0}
+.card .a{color:var(--ac)}
+.opt,.card .b,.card .in,.fb{font-family:var(--bf);letter-spacing:0}
+code{font:.85em ui-monospace,Menlo,monospace;background:var(--ab);padding:2px 6px;border-radius:7px}
+mark{background:var(--ab);color:var(--ac);border-radius:8px;padding:0 6px}
+.blank{border-bottom:3px solid var(--ac);display:inline-block;width:96px}
+.opts{display:grid;gap:10px;margin-top:22px}
+.opt{text-align:left;border:1px solid var(--ln);background:var(--pn);border-radius:16px;padding:14px 18px;cursor:pointer;font-size:16px;font-weight:500;transition:transform .15s,border-color .15s}
+.opt:hover:not(:disabled){border-color:var(--ac);transform:translateX(3px)}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 16%,transparent)}.opt.no{border-color:var(--no);background:color-mix(in srgb,var(--no) 16%,transparent)}
+.fb{font-size:15px;font-weight:600;margin:18px 0 0}.fb.ok{color:var(--ok)}.fb.no{color:var(--no)}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
+.rate button{border:1px solid var(--ln);background:var(--pn);border-radius:18px;padding:14px 4px;font-weight:700;cursor:pointer;transition:transform .15s,border-color .15s}
+.rate button:hover{transform:translateY(-2px);border-color:var(--ac)}
+.rate button.d{border-color:var(--ac);background:var(--ab);box-shadow:0 10px 24px -14px var(--glow)}
+.rate small{display:block;color:var(--mut);font-weight:500}
+.center{text-align:center;padding:70px 0}
+dialog{border:1px solid var(--pb);border-radius:28px;background:var(--dg);color:var(--ink);padding:28px;width:min(470px,92vw);max-height:90vh;overflow:auto;-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 40px 90px -24px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(6,8,22,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+dialog label{display:block;margin-top:14px;font-size:13px;font-weight:600;color:var(--mut)}
+dialog .chk{display:inline-flex;gap:6px;align-items:center;margin:8px 14px 0 0;color:var(--ink);font-size:14px}
+.row{display:flex;justify-content:flex-end;gap:8px;margin-top:22px}
+.gc{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--ln)}
+.gc>div{grid-column:1}.gc>.b{grid-column:2;grid-row:1/4;align-self:start}.gc.off>div{opacity:.4;text-decoration:line-through}
+.gq{font-weight:600}
+.main>.gh{margin:0 0 14px}
+.mk{border-radius:32px;padding:30px;margin:20px 0 14px;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 24%,transparent),color-mix(in srgb,var(--ac2) 16%,transparent)),var(--pn)}
+.mk h2{font:700 25px var(--hf);letter-spacing:-.025em;margin:0 0 6px}.mk p{margin:0 0 18px;max-width:48ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.ch{border:1px solid var(--ln);background:var(--pn);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;color:var(--mut);cursor:pointer}.ch:hover{color:var(--ink);border-color:var(--ac)}
+.full{grid-column:1/-1;min-height:0}
+.wk{display:flex;justify-content:space-between;gap:6px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--mut);flex:1}
+.wd i{width:34px;height:34px;border-radius:50%;border:2px dashed var(--ln)}.wd.on i{border:0;background:var(--gr);box-shadow:0 6px 16px -6px var(--glow)}.wd.td{color:var(--ink)}
+.sec2{display:flex;justify-content:space-between;align-items:center}.sec2 .gh{padding-right:0}
+.pg{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:24px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.dc{border-radius:28px;padding:14px 14px 18px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;color:inherit;transition:transform .2s}
+.dc:hover{transform:translateY(-3px)}
+.dc b{font:700 18px var(--hf);letter-spacing:-.02em;padding:8px 6px 0}.dc .mut{padding:0 6px;font-size:13px}
+.cv{height:112px;border-radius:20px;display:flex;justify-content:space-between;align-items:flex-start;padding:12px;font-size:38px;line-height:1.1;background:linear-gradient(135deg,hsl(var(--h) 85% 62%/.45),hsl(calc(var(--h) + 50) 85% 60%/.16))}
+.cv small{font-size:11px;font-weight:700;background:var(--gr);color:var(--onp);border-radius:999px;padding:3px 10px;line-height:1.4}
+.pb{display:block;height:5px;background:var(--ln);border-radius:999px;margin:10px 6px 0;overflow:hidden}.pb i{display:block;height:100%;background:var(--gr);border-radius:999px}
+.dc.add{align-items:center;justify-content:center;min-height:210px;border-style:dashed;color:var(--mut);font-weight:600}
+.focus .app{grid-template-columns:1fr}.focus .side{display:none}
+@keyframes rv{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:760px){.app{grid-template-columns:1fr}
+.side{position:static;height:auto;margin:12px;border-radius:22px;padding:8px 10px;display:flex;align-items:center;gap:6px;overflow-x:auto}
+.grp{display:none}.dk{width:auto;flex:none;white-space:nowrap}.brand{padding:0 8px 0 4px}.foot{padding:0;flex:none;flex-wrap:nowrap}
+.main{padding:16px 16px 80px}.bento{grid-template-columns:repeat(2,1fr)}.big{font-size:46px}h1{font-size:32px}.card{padding:28px;font-size:22px;border-radius:26px}.t{min-height:150px}}
+</style></head>
+<body><div class="app"><nav class="side" id="side" aria-label="Decks"></nav><main class="main" id="main"></main></div><dialog id="dlg"></dialog>
+<script>
+const $=s=>document.querySelector(s),uid=()=>Math.random().toString(36).slice(2,9),day=()=>Math.floor(Date.now()/864e5);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const md=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+const TN={basic:'Flip',mc:'Choice',tf:'True/false',type:'Typed',cloze:'Cloze'};
+const mk=(type,q,a,opts)=>({id:uid(),type,q,a:a||'',opts:opts||[],star:false,ease:2.5,int:0,reps:0,due:0,lapses:0});
+function seed(){return{cur:null,log:{},theme:null,decks:[
+{id:uid(),name:'Mechanics of materials',subject:'Engineering',emoji:'🔩',cards:[
+mk('basic','What is **normal stress**?','Force per unit area acting perpendicular to a surface: `σ = F/A`'),
+mk('basic','State Hooke’s law.','Within the elastic limit, stress is proportional to strain: `σ = Eε`'),
+mk('mc','Which property measures a material’s stiffness?',"Young’s modulus",['Yield strength','Ductility','Toughness']),
+mk('cloze','The ratio of lateral strain to axial strain is called {{Poisson’s ratio}}.'),
+mk('tf','Ultimate tensile strength is the maximum stress a material can withstand while being stretched.','True'),
+mk('type','What is the SI unit of stress?','pascal')]},
+{id:uid(),name:'Basic biology',subject:'Science',emoji:'🧬',cards:[
+mk('basic','What is the function of mitochondria?','They produce most of the cell’s ATP through respiration.'),
+mk('mc','Which molecule carries genetic information?','DNA',['ATP','Glucose','Lipid']),
+mk('cloze','Plants convert light energy into chemical energy through {{photosynthesis}}.'),
+mk('tf','Ribosomes are the site of protein synthesis.','True')]}]}}
+let S;try{S=JSON.parse(localStorage.getItem('recall.v1'))}catch(e){}
+if(!S||!S.decks)S=seed();if(!S.cur)S.cur=S.decks[0]&&S.decks[0].id;
+const save=()=>{try{localStorage.setItem('recall.v1',JSON.stringify(S))}catch(e){}};
+if(S.theme)document.documentElement.dataset.theme=S.theme;
+let Q=null,G=null,SM=null,V='home',term='';
+const deck=()=>S.decks.find(d=>d.id==S.cur),card=()=>Q&&S.decks.flatMap(d=>d.cards).find(c=>c.id==Q.ids[Q.i]);
+const due=d=>d.cards.filter(c=>c.due<=day()).length;
+const cl=q=>(q.match(/\{\{(.+?)\}\}/)||[,''])[1];
+function lev(a,b){const m=[...Array(a.length+1)].map((_,i)=>[i]);for(let j=1;j<=b.length;j++)m[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)m[i][j]=Math.min(m[i-1][j]+1,m[i][j-1]+1,m[i-1][j-1]+(a[i-1]==b[j-1]?0:1));return m[a.length][b.length]}
+const fz=(a,b)=>{a=a.trim().toLowerCase();b=b.trim().toLowerCase();return lev(a,b)<=(b.length>8?2:b.length>4?1:0)};
+function sched(c,r){if(r==0)return{ease:Math.max(1.3,c.ease-.2),reps:0,int:0,lapses:c.lapses+1};
+const q=[0,3,4,5][r],ease=Math.max(1.3,c.ease+.1-(5-q)*(.08+(5-q)*.02)),reps=c.reps+1;
+const iv=reps==1?(r==3?4:1):reps==2?(r==1?2:r==3?6:3):Math.round(c.int*(r==1?1.2:r==3?ease*1.3:ease));
+return{ease,reps,int:Math.max(1,iv),lapses:c.lapses}}
+const streak=()=>{let n=0,d=day();if(!S.log[d])d--;while(S.log[d]){n++;d--}return n};
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function load(){const c=card();Q.res=null;if(c&&c.type=='mc')Q.ord=shuf(c.opts.concat(c.a).map((_,i)=>i))}
+// mc options are stored as [correct, ...wrong] at display time
+const mcOpts=c=>[c.a,...c.opts];
+function start(mode,all){let cs=(all?S.decks.flatMap(d=>d.cards):deck().cards).filter(c=>mode=='cram'||c.due<=day());if(!cs.length)return;
+Q={mode,ids:shuf(cs.map(c=>c.id)),i:0,res:null};load();render()}
+function reveal(){Q.res={ok:null};render()}
+function pick(v){const c=card();Q.res={ok:c.type=='mc'?v==0:v==c.a,pick:v};render()}
+function check(){const c=card(),v=$('#ans').value;Q.res={ok:fz(v,c.type=='cloze'?cl(c.q):c.a),given:v};render()}
+function rate(r){const c=card();if(Q.mode=='srs'){const s=sched(c,r);Object.assign(c,s,{due:day()+s.int});if(r==0)Q.ids.push(c.id)}
+S.log[day()]=(S.log[day()]||0)+1;Q.i++;load();save();render()}
+function studyHTML(){const n=Q.ids.length,c=card();
+const top=`<div class="top"><span>${Math.min(Q.i+1,n)} of ${n} · ${Q.mode=='cram'?'Cram':'Review'}</span><button class="b" data-a="exit">Exit</button></div><div class="bar"><i style="width:${Q.i/n*100}%"></i></div>`;
+if(!c)return`<div class="study">${top}<div class="center"><h1>Session complete</h1><p class="mut">${n} cards reviewed.</p><button class="b p" data-a="exit">Back to deck</button></div></div>`;
+const r=Q.res,t=c.type;let q=md(c.q),body='',ca=t=='mc'?c.a:t=='cloze'?cl(c.q):c.a;
+if(t=='cloze')q=md(c.q).replace(/\{\{(.+?)\}\}/,r?`<mark>${esc(ca)}</mark>`:'<span class="blank"></span>');
+if(t=='basic')body=r?`<hr><div class="a">${md(c.a)}</div>`:`<div class="opts"><button class="b" data-a="reveal">Show answer</button></div>`;
+if(t=='mc'||t=='tf'){const os=t=='mc'?Q.ord.map(i=>[i,mcOpts(c)[i],i==0]):[['True','True',c.a=='True'],['False','False',c.a=='False']];
+body=`<div class="opts">${os.map(([v,l,ok])=>`<button class="opt ${r?(ok?'ok':String(r.pick)==String(v)?'no':''):''}" ${r?'disabled':''} data-a="pick" data-v="${v}">${md(l)}</button>`).join('')}</div>`}
+if(t=='type'||t=='cloze')body=r?'':`<div class="opts"><input class="in" id="ans" autocomplete="off" placeholder="Type your answer"><button class="b p" data-a="check">Check</button></div>`;
+const fb=r&&r.ok!==null?`<p class="fb ${r.ok?'ok':'no'}">${r.ok?'Correct':'Not quite'}${r.ok?'':' — answer: '+esc(ca)}</p>`:'';
+const def=r&&r.ok===false?0:2;
+const rb=r?`<div class="rate">${['Again','Hard','Good','Easy'].map((l,i)=>{const s=sched(c,i);return`<button class="${i==def?'d':''}" data-a="rate" data-r="${i}">${l}<small>${Q.mode=='cram'?'':i?s.int+'d':'<1m'}</small></button>`}).join('')}</div>`:'';
+return`<div class="study">${top}<div class="card"><div>${q}</div>${body}${fb}</div>${rb}</div>`}
+function listHTML(dk){const t=term.toLowerCase(),cs=dk.cards.filter(c=>(c.q+c.a).toLowerCase().includes(t));
+return cs.length?cs.map(c=>`<div class="r2"><span class="tag">${TN[c.type]}</span><span class="qt">${esc(c.q.replace(/\{\{|\}\}/g,''))}</span><button class="ic" data-a="star" data-id="${c.id}" aria-label="Star card">${c.star?'★':'☆'}</button><button class="ic" data-a="edit" data-id="${c.id}">Edit</button><button class="ic" data-a="del" data-id="${c.id}" aria-label="Delete card">Delete</button></div>`).join(''):`<p class="mut">${dk.cards.length?'No cards match your search.':'No cards yet. Add your first card to start studying.'}</p>`}
+function homeHTML(dk){const n=dk.cards.length,dn=due(dk),m=n?Math.round(dk.cards.reduce((a,c)=>a+Math.min(c.int,21)/21,0)/n*100):0;
+const fc=[...Array(7)].map((_,i)=>dk.cards.filter(c=>i?c.due==day()+i:c.due<=day()).length),mx=Math.max(1,...fc),sk=streak();
+return`<button class="b gh" data-a="go" data-v="decks">← Decks</button><header class="hd"><div class="em">${esc(dk.emoji)}</div><div><h1>${esc(dk.name)}</h1><div class="mut">${esc(dk.subject||'')} · ${n} ${n==1?'card':'cards'}</div></div></header>
+<div class="bento">
+<section class="t gl hero"><span class="k">Today</span><div><div class="big">${dn}<small> due</small></div><div class="mut">${dn?'Ready when you are.':n?'You’re all caught up.':'Add cards to begin.'}</div></div><div class="acts"><button class="b p" data-a="study" ${dn?'':'disabled'}>Study now</button><button class="b" data-a="cram" ${n?'':'disabled'}>Cram all</button></div></section>
+<section class="t gl"><span class="k">Mastery</span><div class="rw"><div class="ring" style="--p:${m}"></div><b>${m}%</b></div></section>
+<section class="t gl"><span class="k">Streak</span><div class="big">${sk}<small> ${sk==1?'day':'days'}</small></div></section>
+<section class="t gl wide"><span class="k">Next 7 days</span><div class="fc">${fc.map((v,i)=>`<div title="${v} due"><i style="height:${v/mx*60}px"></i>${i?new Date(Date.now()+i*864e5).toLocaleDateString('en',{weekday:'short'}):'Today'}</div>`).join('')}</div></section>
+<section class="t gl wide"><span class="k">Build your deck</span><div class="acts"><button class="b p" data-a="add">New card</button><button class="b" data-a="gen">Generate with AI</button></div><button class="b gh" data-a="deldeck">Delete deck</button></section>
+</div>
+<div class="sec">Cards</div><input class="in" id="srch" placeholder="Search cards" value="${esc(term)}" aria-label="Search cards"><div id="list" class="panel gl">${listHTML(dk)}</div>`}
+function sideHTML(){const nv=(v,i,l)=>`<button class="dk ${!Q&&!G&&V==v?'on':''}" data-a="go" data-v="${v}"><span class="ei">${i}</span><span class="dn">${l}</span></button>`;
+return`<div class="brand"><i></i>Recall</div>`+nv('home','⌂','Home')+nv('decks','▦','Decks')+`<div class="grp">Your decks</div>`+S.decks.map(d=>{const u=due(d);return`<button class="dk ${V=='deck'&&d.id==S.cur?'on':''}" data-a="deck" data-id="${d.id}"><span class="ei">${esc(d.emoji)}</span><span class="dn">${esc(d.name)}</span>${u?`<small>${u}</small>`:''}</button>`}).join('')+`<button class="dk nd" data-a="newdeck"><span class="ei">+</span><span class="dn">New deck</span></button><div class="foot"><button class="b" data-a="theme">Theme</button><button class="b" data-a="backup">Backup</button></div>`}
+const dt=d=>{const n=d.cards.length,m=n?Math.round(d.cards.reduce((a,c)=>a+Math.min(c.int,21)/21,0)/n*100):0,u=due(d);return`<button class="dc gl" style="--h:${(S.decks.indexOf(d)*67+210)%360}" data-a="deck" data-id="${d.id}"><span class="cv"><span>${esc(d.emoji)}</span>${u?`<small>${u} due</small>`:''}</span><b>${esc(d.name)}</b><span class="mut">${esc(d.subject||'')} · ${n} ${n==1?'card':'cards'}</span><span class="pb"><i style="width:${m}%"></i></span></button>`};
+function dashHTML(){const all=S.decks.flatMap(d=>d.cards),dn=all.filter(c=>c.due<=day()).length,done=S.log[day()]||0,goal=S.goal||20,gp=Math.min(100,Math.round(done/goal*100)),sk=streak(),h=new Date().getHours(),gr=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+const wk=[...Array(7)].map((_,i)=>{const d=day()-6+i;return`<div class="wd ${S.log[d]?'on':''} ${i==6?'td':''}"><i></i>${new Date(d*864e5).toLocaleDateString('en',{weekday:'short',timeZone:'UTC'})}</div>`}).join('');
+const rec=S.decks.slice().sort((a,b)=>due(b)-due(a)).slice(0,3);
+return`<div class="mut">${gr}</div><h1>What are we learning today?</h1>
+<section class="mk gl"><h2>Create a deck from anything</h2><p class="mut">Drop in a PDF, a Word file, your notes, or just a topic. Recall writes the cards and you review them before saving.</p><div class="acts"><button class="b p" data-a="gen">Create with AI</button><button class="b" data-a="newdeck">Blank deck</button></div><div class="chips">${['PDF','DOCX','Notes','A topic'].map(x=>`<button class="ch" data-a="gen">${x}</button>`).join('')}</div></section>
+<div class="bento">
+<section class="t gl hero"><span class="k">Review queue</span><div><div class="big">${dn}<small> due</small></div><div class="mut">${dn?'Across '+S.decks.filter(d=>due(d)).length+' of '+S.decks.length+' decks.':'Nothing due. Nice work.'}</div></div><div class="acts"><button class="b p" data-a="studyall" ${dn?'':'disabled'}>Start review</button></div></section>
+<section class="t gl"><span class="k">Daily goal</span><div class="rw"><div class="ring" style="--p:${gp}"></div><b>${done}</b></div><div class="mut">of ${goal} cards</div></section>
+<section class="t gl"><span class="k">Streak</span><div class="big">${sk}<small> ${sk==1?'day':'days'}</small></div></section>
+<section class="t gl full"><span class="k">This week</span><div class="wk">${wk}</div></section></div>
+<div class="sec sec2">Continue studying<button class="b gh" data-a="go" data-v="decks">All decks</button></div>
+<div class="dgrid">${rec.map(dt).join('')||'<p class="mut">No decks yet.</p>'}</div>`}
+function decksHTML(){return`<div class="pg"><div><div class="mut">${S.decks.length} ${S.decks.length==1?'deck':'decks'}</div><h1>Decks</h1></div><div class="acts"><button class="b p" data-a="gen">Create with AI</button><button class="b" data-a="newdeck">Blank deck</button></div></div><div class="dgrid">${S.decks.map(dt).join('')}<button class="dc gl add" data-a="newdeck">+ New deck</button></div>`}
+function render(){document.body.classList.toggle('focus',!!Q);$('#side').innerHTML=sideHTML();const dk=deck();
+$('#main').innerHTML=Q?studyHTML():G?genHTML():V=='deck'&&dk?homeHTML(dk):V=='decks'?decksHTML():dashHTML();
+if(Q){const i=$('#ans');i?i.focus():document.activeElement&&document.activeElement.blur()}}
+function modal(title,body,ok,fn){const d=$('#dlg');d.innerHTML=`<h3>${title}</h3>${body}<div class="row"><button class="b" data-a="x">Cancel</button><button class="b p" data-a="ok">${ok}</button></div>`;d._fn=fn;d.showModal()}
+const val=id=>$('#'+id).value.trim();
+function cardModal(c){const T=c?c.type:'basic';
+modal(c?'Edit card':'Add card',`<label>Type<select class="in" id="f-t"><option value="basic">Flip card</option><option value="mc">Multiple choice</option><option value="tf">True / false</option><option value="type">Type the answer</option><option value="cloze">Cloze (wrap blank in {{double braces}})</option></select></label>
+<label>Question or front<textarea class="in" id="f-q">${c?esc(c.q):''}</textarea></label>
+<label>Answer<input class="in" id="f-a" value="${c&&c.type!='cloze'?esc(c.a):''}" placeholder="True or False for true/false cards"></label>
+<label>Wrong answers for multiple choice, one per line<textarea class="in" id="f-o">${c?esc(c.opts.join('\n')):''}</textarea></label>`,'Save card',()=>{
+const type=$('#f-t').value,q=val('f-q'),a=val('f-a'),o=val('f-o').split('\n').map(s=>s.trim()).filter(Boolean);
+if(!q||(type=='cloze'?!cl(q):!a))return $('#f-q').focus(),false;
+if(type=='mc'&&!o.length)return $('#f-o').focus(),false;
+if(type=='tf'&&!/^(true|false)$/i.test(a))return $('#f-a').focus(),false;
+const n={type,q,a:type=='cloze'?'':type=='tf'?(a[0].toUpperCase()+a.slice(1).toLowerCase()):a,opts:type=='mc'?o:[]};
+if(c)Object.assign(c,n);else deck().cards.push(Object.assign(mk(type,q),n));save();render()});$('#f-t').value=T}
+const acts={
+deck(t){G=null;V='deck';scrollTo(0,0);S.cur=t.dataset.id;term='';save();render()},
+newdeck(){modal('New deck',`<label>Name<input class="in" id="d-n"></label><label>Subject<input class="in" id="d-s" placeholder="Engineering"></label><label>Emoji<input class="in" id="d-e" value="📘" maxlength="4"></label>`,'Create deck',()=>{const name=val('d-n');if(!name)return $('#d-n').focus(),false;const d={id:uid(),name,subject:val('d-s')||'Other',emoji:val('d-e')||'📘',cards:[]};S.decks.push(d);S.cur=d.id;V='deck';save();render()})},
+deldeck(){const d=deck();modal('Delete deck?',`<p>“${esc(d.name)}” and its ${d.cards.length} cards will be removed.</p>`,'Delete deck',()=>{S.decks=S.decks.filter(x=>x.id!=d.id);S.cur=S.decks[0]&&S.decks[0].id;V='decks';save();render()})},
+add(){cardModal()},edit(t){cardModal(deck().cards.find(c=>c.id==t.dataset.id))},
+del(t){const dk=deck();dk.cards=dk.cards.filter(c=>c.id!=t.dataset.id);save();render()},
+star(t){const c=deck().cards.find(c=>c.id==t.dataset.id);c.star=!c.star;save();$('#list').innerHTML=listHTML(deck())},
+study(){start('srs')},cram(){start('cram')},exit(){Q=null;render()},reveal,check,
+pick(t){pick(t.dataset.v)},rate(t){rate(+t.dataset.r)},
+theme(){const cur=document.documentElement.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');S.theme=cur=='dark'?'light':'dark';document.documentElement.dataset.theme=S.theme;save()},
+backup(){modal('Backup and restore',`<p class="mut">Copy this text to back up every deck. Paste a backup here to restore it.</p><textarea class="in" id="bk" style="min-height:160px">${esc(JSON.stringify(S))}</textarea>`,'Restore from text',()=>{try{const n=JSON.parse($('#bk').value);if(!n.decks)throw 0;S=n;S.cur=S.cur||(S.decks[0]&&S.decks[0].id);save();render()}catch(e){$('#bk').focus();return false}})},
+gen(){genModal()},studyall(){start('srs',true)},go(t){V=t.dataset.v;G=null;scrollTo(0,0);render()},gagain(){runGen(G.opt)},gcancel(){if(G&&G.ac)G.ac.abort();G=null;render()},
+gtoggle(t){const c=G.cards[+t.dataset.i];c.keep=!c.keep;render()},
+gsave(){let dk=S.decks.find(d=>d.id==G.opt.to);if(!dk){dk={id:uid(),name:G.opt.name||'New deck',subject:'Generated',emoji:'📚',cards:[]};S.decks.push(dk)}S.cur=dk.id;V='deck';G.cards.filter(c=>c.keep).forEach(c=>dk.cards.push(Object.assign(mk(c.type,c.q),{a:c.a,opts:c.opts})));G=null;save();render()},
+x(){$('#dlg').close()},ok(){const d=$('#dlg');if(d._fn()!==false)d.close()}};
+// AI card generation: file import, prompt, parsing, review
+const ld=src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>no(new Error('Couldn’t load the file reader. Paste the text instead.'));document.head.appendChild(s)});
+async function fileText(f){const ext=f.name.split('.').pop().toLowerCase(),cdn='https://cdnjs.cloudflare.com/ajax/libs/';
+if(ext=='pdf'){await ld(cdn+'pdf.js/3.11.174/pdf.min.js');await ld(cdn+'pdf.js/3.11.174/pdf.worker.min.js');pdfjsLib.GlobalWorkerOptions.workerSrc=cdn+'pdf.js/3.11.174/pdf.worker.min.js';const d=await pdfjsLib.getDocument({data:new Uint8Array(await f.arrayBuffer())}).promise;let t='';for(let i=1;i<=d.numPages&&t.length<40000;i++){t+=(await(await d.getPage(i)).getTextContent()).items.map(x=>x.str).join(' ')+'\n'}return t}
+if(ext=='docx'){await ld(cdn+'mammoth/1.6.0/mammoth.browser.min.js');return(await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value}
+return f.text()}
+document.addEventListener('change',async e=>{if(e.target.id!='g-f'||!e.target.files[0])return;const f=e.target.files[0],s=$('#g-s');s.textContent='Reading '+f.name+'…';
+try{const t=(await fileText(f)).trim();if(!t)throw new Error('No text found. Scanned PDFs need to be pasted as text.');$('#g-t').value=t.slice(0,30000);s.textContent=f.name+': '+Math.min(t.length,30000).toLocaleString()+' characters'+(t.length>30000?' (trimmed to the first 30,000)':'');$('#dlg')._file=1;$('#dlg')._name=f.name.split('.').slice(0,-1).join('.')}
+catch(err){console.error(err);s.textContent='Couldn’t read this file ('+((err&&err.message)||err)+'). Paste its text below instead.'}finally{e.target.value=''}});
+const chk=(v,l,on)=>`<label class="chk"><input type="checkbox" value="${v}" ${on?'checked':''}>${l}</label>`;
+function genModal(){$('#dlg')._file=0;$('#dlg')._name='';modal('Generate cards with AI',`<label>Upload a file (PDF, DOCX, TXT or MD)<input class="in" type="file" id="g-f" accept=".pdf,.docx,.txt,.md,text/plain,application/pdf"></label><div class="mut" id="g-s" style="font-size:13px;margin-top:4px"></div><label>Or paste notes, or type a topic<textarea class="in" id="g-t" style="min-height:120px"></textarea></label><label>Number of cards<select class="in" id="g-n"><option>5</option><option selected>10</option><option>15</option><option>20</option></select></label><label>Difficulty<select class="in" id="g-d"><option>easy</option><option selected>medium</option><option>hard</option></select></label><label>Save to<select class="in" id="g-k">${S.decks.map(d=>`<option value="${d.id}" ${V=='deck'&&d.id==S.cur?'selected':''}>${esc(d.emoji+' '+d.name)}</option>`).join('')}<option value="new" ${V=='deck'&&S.cur?'':'selected'}>A new deck</option></select></label><div class="mut" style="margin-top:12px;font-size:13px">Card types</div>${chk('basic','Flip',1)}${chk('mc','Choice',1)}${chk('tf','True/false')}${chk('type','Typed')}${chk('cloze','Cloze')}`,'Generate',()=>{
+const t=val('g-t'),types=[...document.querySelectorAll('#dlg .chk input:checked')].map(i=>i.value);if(!t)return $('#g-t').focus(),false;if(!types.length)return false;
+runGen({to:$('#g-k').value,name:($('#dlg')._name||t.split('\n')[0]).slice(0,40),text:t.slice(0,30000),topic:!$('#dlg')._file&&t.length<80,n:+$('#g-n').value,types,diff:$('#g-d').value})})}
+function parseCards(t){t=t.replace(/```(?:json)?/g,'');const a=t.indexOf('['),b=t.lastIndexOf(']');
+return JSON.parse(t.slice(a,b+1)).map(x=>{const ty=String(x.type||'').toLowerCase(),q=String(x.q||'').trim().slice(0,400);let a=String(x.a==null?'':x.a).trim().slice(0,300);if(!TN[ty]||!q)return null;
+const w=Array.isArray(x.wrong)?x.wrong.map(s=>String(s).trim().slice(0,200)).filter(Boolean).slice(0,3):[];
+if(ty=='mc'&&(!a||w.length<2))return null;
+if(ty=='tf'){if(!/^(true|false)$/i.test(a))return null;a=a[0].toUpperCase()+a.slice(1).toLowerCase()}
+if(ty=='cloze'){if(!/\{\{.+?\}\}/.test(q))return null;a=''}else if(!a)return null;
+return{type:ty,q,a,opts:ty=='mc'?w:[],keep:true}}).filter(Boolean)}
+async function runGen(o){const ac=new AbortController();G={busy:true,opt:o,ac};render();
+if(!SM){G={err:'AI generation isn’t available in this view. Open the page in claude.ai and try again.',opt:o};render();return}
+const nm={basic:'basic (q = front, a = back)',mc:'mc (q, a = the correct answer, wrong = 3 plausible distractors)',tf:'tf (q = a statement, a = "True" or "False")',type:'type (q, a = a short answer of 1 to 4 words)',cloze:'cloze (q = a sentence containing one {{blank}}, no a)'};
+const p=`You write study flashcards.\n${o.topic?'Topic: ':'Source material:\n'}${o.text}\n\nWrite exactly ${o.n} flashcards at ${o.diff} difficulty. ${o.topic?'Use well-established knowledge of the topic.':'Use only facts stated in the material.'} Mix these card types evenly:\n${o.types.map(t=>'- '+nm[t]).join('\n')}\nEach card tests one idea, is self-contained, and is short. Respond with only a JSON array, no commentary and no code fences. Each item looks like {"type":"basic","q":"...","a":"...","wrong":["..."]}; leave out fields a type doesn’t use.`;
+try{const r=await SM(p,{signal:ac.signal,cache:false});if(!G||G.ac!==ac)return;const cards=parseCards(r.text);if(!cards.length)throw new SyntaxError('empty');G={cards,opt:o}}
+catch(e){if(!G||G.ac!==ac)return;const m={not_granted:'Permission was declined. Try again and allow access when asked.',rate_limited:'Too many requests right now. Wait a minute and try again.'}[e.code];
+G={err:m||(e instanceof SyntaxError?'The reply wasn’t usable card data. Try again, or use a shorter passage.':'Generation failed'+(e.message?': '+e.message:'')+'. Try again.'),opt:o}}
+render()}
+function genHTML(){const o=G.opt;
+if(G.busy)return`<div class="center"><h1>Generating cards</h1><p class="mut">Reading your material and writing ${o.n} cards.</p><button class="b" data-a="gcancel">Cancel</button></div>`;
+if(G.err)return`<div class="center"><h1>Couldn’t generate cards</h1><p class="mut">${esc(G.err)}</p><div class="acts" style="justify-content:center"><button class="b p" data-a="gagain">Try again</button><button class="b" data-a="gcancel">Back to deck</button></div></div>`;
+const k=G.cards.filter(c=>c.keep).length;
+return`<h1>Review cards</h1><div class="mut">${k} of ${G.cards.length} selected for ${esc((S.decks.find(d=>d.id==o.to)||{name:'a new deck'}).name)}</div><div class="acts"><button class="b p" data-a="gsave" ${k?'':'disabled'}>Save ${k} cards</button><button class="b" data-a="gagain">Generate again</button><button class="b" data-a="gcancel">Discard all</button></div>`+G.cards.map((c,i)=>`<div class="gc ${c.keep?'':'off'}"><div><span class="tag">${TN[c.type]}</span></div><div class="gq">${md(c.q)}</div><div class="mut">${md(c.type=='cloze'?cl(c.q):c.a)}${c.opts.length?'<br>Distractors: '+c.opts.map(esc).join(', '):''}</div><button class="b" data-a="gtoggle" data-i="${i}">${c.keep?'Discard':'Keep'}</button></div>`).join('')}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(t&&acts[t.dataset.a])acts[t.dataset.a](t)});
+document.addEventListener('input',e=>{if(e.target.id=='srch'){term=e.target.value;$('#list').innerHTML=listHTML(deck())}});
+document.addEventListener('keydown',e=>{if($('#dlg').open||!Q)return;
+if(e.key=='Escape'){acts.exit();return}
+if(e.target.tagName=='INPUT'){if(e.key=='Enter'&&!Q.res){e.preventDefault();check()}return}
+const c=card(),k=e.key;if(!c)return;
+if(Q.res){if(k>='1'&&k<='4')rate(k-1);else if(k=='Enter'||k==' '){e.preventDefault();rate(Q.res.ok===false?0:2)}}
+else if(c.type=='basic'&&(k==' '||k=='Enter')){e.preventDefault();reveal()}
+else if(c.type=='mc'&&Q.ord[k-1]!==undefined)pick(Q.ord[k-1])
+else if(c.type=='tf'&&(k=='1'||k=='2'))pick(k==1?'True':'False')});
+if(window.claude&&claude.use)claude.use('sample').then(s=>{SM=s}).catch(()=>{});
+render();
+</script></body></html>
